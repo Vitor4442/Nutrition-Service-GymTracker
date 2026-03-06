@@ -160,6 +160,62 @@ public class IbgeFood implements Serializable {
         updatedAt = LocalDateTime.now();
     }
 
+    public IbgeFood calcularPorcao(double porcaoGramas) {
+
+        double fator = porcaoGramas / 100.0;
+
+        IbgeFood food = new IbgeFood();
+
+        food.setEnergiaKcal(calc(this.energiaKcal, fator));
+        food.setProteinaG(calc(this.proteinaG, fator));
+        food.setLipidiosTotaisG(calc(this.lipidiosTotaisG, fator));
+        food.setCarboidratoG(calc(this.carboidratoG, fator));
+        food.setFibraAlimentarTotalG(calc(this.fibraAlimentarTotalG, fator));
+        food.setColesterolMg(calc(this.colesterolMg, fator));
+        food.setAgSaturadosG(calc(this.agSaturadosG, fator));
+        food.setAgMonoG(calc(this.agMonoG, fator));
+        food.setAgPoliG(calc(this.agPoliG, fator));
+        food.setAgLinoleicoG(calc(this.agLinoleicoG, fator));
+        food.setAgLinolenicoG(calc(this.agLinolenicoG, fator));
+        food.setAgTransTotalG(calc(this.agTransTotalG, fator));
+        food.setAcucarTotalG(calc(this.acucarTotalG, fator));
+        food.setAcucarDeAdicaoG(calc(this.acucarDeAdicaoG, fator));
+        food.setCalcioMg(calc(this.calcioMg, fator));
+        food.setMagnesioMg(calc(this.magnesioMg, fator));
+        food.setManganesMg(calc(this.manganesMg, fator));
+        food.setFosforoMg(calc(this.fosforoMg, fator));
+        food.setFerroMg(calc(this.ferroMg, fator));
+        food.setSodioMg(calc(this.sodioMg, fator));
+        food.setSodioDeAdicaoMg(calc(this.sodioDeAdicaoMg, fator));
+        food.setPotassioMg(calc(this.potassioMg, fator));
+        food.setCobreMg(calc(this.cobreMg, fator));
+        food.setZincoMg(calc(this.zincoMg, fator));
+        food.setSelenioMcg(calc(this.selenioMcg, fator));
+        food.setRetinolMcg(calc(this.retinolMcg, fator));
+        food.setVitaminaAraemcg(calc(this.vitaminaAraemcg, fator));
+        food.setTiaminaMg(calc(this.tiaminaMg, fator));
+        food.setRiboflavinaMg(calc(this.riboflavinaMg, fator));
+        food.setNiacinaMg(calc(this.niacinaMg, fator));
+        food.setNiacinaNeMg(calc(this.niacinaNeMg, fator));
+        food.setPiridoxinaMg(calc(this.piridoxinaMg, fator));
+        food.setCobalaminaMcg(calc(this.cobalaminaMcg, fator));
+        food.setFolatoDfeMcg(calc(this.folatoDfeMcg, fator));
+        food.setVitaminaDMcg(calc(this.vitaminaDMcg, fator));
+        food.setVitaminaEMg(calc(this.vitaminaEMg, fator));
+        food.setVitaminaCMg(calc(this.vitaminaCMg, fator));
+
+        return food;
+    }
+
+    private String calc(String valor, double fator) {
+        if (valor == null || valor.isBlank() || valor.equals("-")) return valor;
+
+        double numero = Double.parseDouble(valor.replace(",", "."));
+        double resultado = numero * fator;
+
+        return String.valueOf(resultado);
+    }
+
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
