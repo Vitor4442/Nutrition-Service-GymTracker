@@ -10,7 +10,4 @@ import java.util.List;
 
 @Repository
 public interface IbgeFoodRepository extends JpaRepository<IbgeFood, Long> {
-
-    @Query("SELECT f FROM IbgeFood f WHERE LOWER(f.foodDescription) LIKE LOWER(CONCAT('%', :name, '%'))")
-    List<IbgeFood> searchByName(@Param("name") String name);
 }
