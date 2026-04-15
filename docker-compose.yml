@@ -20,6 +20,7 @@ services:
       - nutrition-network
 
   app:
+    image: vitor4442/nutrition:latest
     build:
       context: .
     restart: unless-stopped
