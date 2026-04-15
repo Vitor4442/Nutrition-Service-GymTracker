@@ -26,4 +26,3 @@ jobs:
         distribution: 'temurin' # See 'Supported distributions' for available options
         java-version: '21'
         cache: maven
-}}
