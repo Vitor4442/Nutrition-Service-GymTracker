@@ -12,21 +12,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
     private final UserService userService;
 
     public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, UserService userService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
         this.userService = userService;
     }
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        String token = jwtUtil.generateToken(request.getUsername());
-        return new AuthResponse(token);
+        return userService.login(request);
     }
 
     @PostMapping("/register")
