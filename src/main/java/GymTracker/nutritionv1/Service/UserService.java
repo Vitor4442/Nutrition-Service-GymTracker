@@ -2,6 +2,7 @@ package GymTracker.nutritionv1.Service;
 
 import GymTracker.nutritionv1.DTO.AuthRequest;
 import GymTracker.nutritionv1.DTO.AuthResponse;
+import GymTracker.nutritionv1.DTO.RefreshTokenRequest;
 import GymTracker.nutritionv1.Mapper.UserMapper;
 import GymTracker.nutritionv1.Model.User;
 import GymTracker.nutritionv1.Repository.UserRepository;
@@ -40,9 +41,35 @@ public class UserService {
             throw new RuntimeException("Usuario desabilitado");
         }
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        String token = jwtUtil.generateToken(request.getUsername());
+        String accessToken = jwtUtil.generateAccessToken(request.getUsername());
+        String refreshToken = jwtUtil.generateRefreshToken(request.getUsername());
 
-        return new AuthResponse(token);
+        return new AuthResponse(accessToken, refreshToken);
+    }
+
+    public AuthResponse refreshToken(RefreshTokenRequest request) {
+        String refreshToken = request.getRefreshToken();
+
+        if (refreshToken == null || refreshToken.isBlank()) {
+            throw new RuntimeException("Refresh token é obrigatório");
+        }
+
+        if (!jwtUtil.isRefreshTokenValid(refreshToken)) {
+            throw new RuntimeException("Refresh token inválido");
+        }
+
+        String username = jwtUtil.extractUsername(refreshToken);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+
+        if (!Boolean.TRUE.equals(user.getEnabled())) {
+            throw new RuntimeException("Usuario desabilitado");
+        }
+
+        String newAccessToken = jwtUtil.generateAccessToken(username);
+        String newRefreshToken = jwtUtil.generateRefreshToken(username);
+
+        return new AuthResponse(newAccessToken, newRefreshToken);
 
     }
 }

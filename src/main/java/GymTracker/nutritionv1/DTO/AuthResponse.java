@@ -2,13 +2,19 @@ package GymTracker.nutritionv1.DTO;
 
 public class AuthResponse {
 
-    private String token;
+    private final String accessToken;
+    private final String refreshToken;
 
-    public AuthResponse(String token) {
-        this.token = token;
+    public AuthResponse(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
 
-    public String getToken() {
-        return token;
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
     }
 }
