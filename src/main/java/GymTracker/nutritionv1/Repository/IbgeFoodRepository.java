@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface IbgeFoodRepository extends JpaRepository<IbgeFood, Long> {
 
-    @Query("SELECT i FROM IbgeFood i WHERE i.descricaoDoAlimento LIKE %:name%")
+    @Query("SELECT i FROM IbgeFood i WHERE i.descricaoDoAlimento ILIKE %:name%")
     List<IbgeFood> searchFood(@Param("name") String name);
 }

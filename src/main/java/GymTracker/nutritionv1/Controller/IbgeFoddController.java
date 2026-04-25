@@ -22,4 +22,9 @@ public class IbgeFoddController {
 
     @GetMapping(value ="/search")
     public ResponseEntity<List<IbgeFoodDTO>> search(@RequestParam String name){ return ResponseEntity.ok().body(service.searchFood(name));}
+
+    @GetMapping(value = "/food/{id}")
+    public ResponseEntity<IbgeFoodDTO> findByid (@PathVariable Long id){
+        return ResponseEntity.ok().body(service.findFood(id));
+    }
 }

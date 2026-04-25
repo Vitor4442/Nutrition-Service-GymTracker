@@ -26,6 +26,11 @@ public class IbgeFoodService {
         return mapper.toDTOAll(repository.searchFood(descricacao_do_alimento));
     }
 
+    @Transactional(readOnly = true)
+    public IbgeFoodDTO findFood (Long id){
+        return mapper.toDTO(repository.findById(id).orElseThrow(()-> new RuntimeException("Alimento não encontrado! ")));
+    }
+
 
 
 
