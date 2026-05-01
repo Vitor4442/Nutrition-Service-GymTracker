@@ -2,22 +2,30 @@ package GymTracker.nutritionv1.Model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "routines")
 public class Routine {
@@ -27,7 +35,8 @@ public class Routine {
     private Long id;
 
     @Column(name = "meal_name", nullable = false, length = 100)
-    private String mealName;
+    @Enumerated(EnumType.STRING)
+    private RoutineStatus mealName;
 
     @ManyToMany
     @JoinTable(
@@ -35,7 +44,7 @@ public class Routine {
             joinColumns = @JoinColumn(name = "routine_id"),
             inverseJoinColumns = @JoinColumn(name = "food_id")
     )
-    private Set<IbgeFood> foods = new HashSet<>();
+    private List<IbgeFood> foods = new ArrayList<>();
 
     @Column(name = "routine_at", nullable = false)
     private LocalDateTime routineAt;
